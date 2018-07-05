@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+        groovyVersion = '2.4.15'
+        gParsVersion = '1.2.1'
+        spockVersion = '1.1-groovy-2.4'
+        objenesisVersion = '2.2'
+        cglibVersion = '3.2.0'
+        codeNarcVersion = '1.1'
+        commonsCliVersion = '1.4'
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'codenarc'
+
+version = '0.1.0'
+mainClassName = 'net.whatplanet.bla.Main'
+
+
+tasks.withType(GroovyCompile) {
+  groovyOptions.optimizationOptions.indy = true
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+  compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
+  compile "org.codehaus.gpars:gpars:${gParsVersion}"
+  compile "commons-cli:commons-cli:${commonsCliVersion}"
+  
+  testCompile "org.spockframework:spock-core:${spockVersion}"
+  testCompile "org.objenesis:objenesis:${objenesisVersion}"
+  testCompile "cglib:cglib-nodep:${cglibVersion}"
+
+  codenarc "org.codenarc:CodeNarc:${codeNarcVersion}"
+}
+
+codenarc {
+  configFile rootProject.file('gradle/codenarc/codenarc.groovy')
+}
+
+codenarcTest {
+  configFile rootProject.file('gradle/codenarc/codenarcTest.groovy')
+}
+
+sourceSets {
+  main {
+    groovy {
+      srcDirs = ['src/main/groovy']
+    }
+  }
+}
+
+task uberjar(type: Jar, dependsOn: [':compileJava', ':compileGroovy']) {
+  manifest {
+    attributes 'Main-Class': mainClassName
+  }
+  from files(sourceSets.main.output.classesDirs)
+  from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+}
+
+build.finalizedBy "uberjar"
