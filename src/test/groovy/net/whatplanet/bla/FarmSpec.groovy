@@ -8,7 +8,11 @@ class FarmSpec extends Specification {
   @Unroll
   void 'isBarren correctly identifies barren area using coordinate #x, #y'() {
     given: 'a farm with barren areas'
-    Farm farm = new Farm(400, 600, [new BarrenArea(100, 100, 200, 200), new BarrenArea(200, 200, 300, 300)])
+    int w = 400
+    int h = 600
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 100 200 200', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('200 200 300 300', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2])
 
     when:
     boolean result = farm.isBarren(x, y)
@@ -31,7 +35,11 @@ class FarmSpec extends Specification {
   @Unroll
   void 'findUnaccountedFertileNeighbors with valid input: #x, #y'() {
     given: 'a farm with barren areas'
-    Farm farm = new Farm(600, 400, [new BarrenArea(100, 100, 200, 200), new BarrenArea(200, 200, 300, 300)])
+    int w = 600
+    int h = 400
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 100 200 200', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('200 200 300 300', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2])
     farm.initGrid()
 
     when:
@@ -70,7 +78,11 @@ class FarmSpec extends Specification {
   @Unroll
   void 'getFertileNeighbors with invalid input: #x, #y'() {
     given: 'a farm with barren areas'
-    Farm farm = new Farm(400, 600, [new BarrenArea(100, 100, 200, 200), new BarrenArea(200, 200, 300, 300)])
+    int w = 400
+    int h = 600
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 100 200 200', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('200 200 300 300', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2])
 
     when:
     farm.findUnaccountedFertileNeighbors(new Node(x: x, y: y))
@@ -89,7 +101,12 @@ class FarmSpec extends Specification {
 
   void 'extendFertileAreaFrom with a farm with barren areas not segmenting fertile area and not overlapping'() {
     given:
-    Farm farm = new Farm(400, 600, [new BarrenArea(100, 100, 199, 199), new BarrenArea(300, 100, 399, 199), new BarrenArea(201, 150, 298, 150)])
+    int w = 400
+    int h = 600
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 100 199 199', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('300 100 399 199', w, h)
+    BarrenArea ba3 = BarrenArea.buildBarrenArea('201 150 298 150', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2, ba3])
     farm.initGrid()
     int expectedSize = 219902
 
@@ -102,7 +119,12 @@ class FarmSpec extends Specification {
 
   void 'extendFertileAreaFrom with a farm with barren areas not segmenting fertile area and overlapping'() {
     given:
-    Farm farm = new Farm(600, 400, [new BarrenArea(100, 100, 199, 199), new BarrenArea(300, 100, 399, 199), new BarrenArea(150, 150, 350, 150)])
+    int w = 600
+    int h = 400
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 100 199 199', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('300 100 399 199', w, h)
+    BarrenArea ba3 = BarrenArea.buildBarrenArea('150 150 350 150', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2, ba3])
     farm.initGrid()
     int expectedSize = 219900
 
@@ -115,7 +137,11 @@ class FarmSpec extends Specification {
 
   void 'extendFertileAreaFrom with a farm with barren areas segmenting fertile area and not overlapping'() {
     given:
-    Farm farm = new Farm(600, 400, [new BarrenArea(100, 0, 100, 399), new BarrenArea(0, 200, 99, 200)])
+    int w = 600
+    int h = 400
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('100 0 100 399', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('0 200 99 200', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2])
     farm.initGrid()
     int expectedSize = 20000
 
@@ -129,7 +155,12 @@ class FarmSpec extends Specification {
   @Unroll
   void 'getNextFertileUnaccountedNode #desc'() {
     given:
-    Farm farm = new Farm(600, 400, [new BarrenArea(0, 0, 99, 99), new BarrenArea(0, 200, 599, 200), new BarrenArea(599, 399, 599, 399)])
+    int w = 600
+    int h = 400
+    BarrenArea ba1 = BarrenArea.buildBarrenArea('0 0 99 99', w, h)
+    BarrenArea ba2 = BarrenArea.buildBarrenArea('0 200 599 200', w, h)
+    BarrenArea ba3 = BarrenArea.buildBarrenArea('599 399 599 399', w, h)
+    Farm farm = new Farm(w, h, [ba1, ba2, ba3])
     farm.initGrid()
     farm.grid[199][599].accounted = true
     farm.grid[399][598].accounted = true

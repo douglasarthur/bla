@@ -4,6 +4,9 @@ import static org.apache.commons.cli.Option.UNLIMITED_VALUES
 
 import net.whatplanet.bla.exceptions.InvalidOptionsException
 
+/**
+ * Handles command line options and user input.
+ */
 class CLI {
   private static final Integer DEFAULT_HEIGHT = 600
   private static final Integer DEFAULT_WIDTH = 400
@@ -73,7 +76,7 @@ Options:
     return barrenAreas
   }
 
-  List<BarrenArea> buildBarrenAreasFromUserInput() {
+  private List<BarrenArea> buildBarrenAreasFromUserInput() {
     Scanner scanner = new Scanner(System.in)
     List<BarrenArea> barrenAreas = []
     println('Enter an input string.')

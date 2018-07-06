@@ -2,6 +2,9 @@ package net.whatplanet.bla
 
 import groovy.transform.CompileStatic
 
+/**
+ * Contains state of the farm and finds fertile areas.
+ */
 @CompileStatic
 class Farm {
   private final int w
@@ -31,13 +34,17 @@ class Farm {
     if (start.fertile && !start.accounted) {
       return start
     }
+    // skip rows that have previously been handled
     int rowIndex = start.y
     while (rowIndex < h) {
+      // skip columns that have previously been handled
       int colStartIndex = rowIndex == start.y ? start.x : 0
       List<Node> row
+      // look at the entire row if skipped up from another row
       if (colStartIndex == 0 && rowIndex > start.y) {
         row = grid[rowIndex]
       } else {
+        // look only at row starting just behind start node
         row = grid[rowIndex].takeRight(w - colStartIndex - 1)
       }
       Node found = row.find { it.fertile && !it.accounted }

@@ -1,8 +1,10 @@
 package net.whatplanet.bla
 
+import groovy.transform.CompileStatic
 import net.whatplanet.bla.exceptions.InvalidInputStringException
 import net.whatplanet.bla.exceptions.InvalidOptionsException
 
+@CompileStatic
 class Main {
   static void main(String[] args) {
     CLI cli = new CLI(args)
@@ -15,10 +17,10 @@ class Main {
         println(fertileAreas.join(' '))
       } catch (InvalidOptionsException invalidOptionsException) {
         println("Invalid options: ${invalidOptionsException.message}")
-        println(cli.getUsage())
+        cli.printUsage()
       } catch (InvalidInputStringException invalidInputStringException) {
         println("Invalid input: ${invalidInputStringException.message}")
-        println(cli.getUsage())
+        cli.printUsage()
       }
     }
   }

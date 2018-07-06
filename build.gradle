@@ -1,7 +1,6 @@
 buildscript {
     ext {
         groovyVersion = '2.4.15'
-        gParsVersion = '1.2.1'
         spockVersion = '1.1-groovy-2.4'
         objenesisVersion = '2.2'
         cglibVersion = '3.2.0'
@@ -30,7 +29,6 @@ repositories {
 
 dependencies {
   compile "org.codehaus.groovy:groovy-all:${groovyVersion}:indy"
-  compile "org.codehaus.gpars:gpars:${gParsVersion}"
   compile "commons-cli:commons-cli:${commonsCliVersion}"
   
   testCompile "org.spockframework:spock-core:${spockVersion}"

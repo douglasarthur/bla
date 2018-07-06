@@ -2,17 +2,12 @@ package net.whatplanet.bla
 
 import net.whatplanet.bla.exceptions.InvalidInputStringException
 
+/**
+ * Defines a barren area as parsed from an input string.
+ */
 class BarrenArea {
   Node southWest
   Node northEast
-
-  BarrenArea() {
-  }
-
-  BarrenArea(int southWestX, int southWestY, int northEastX, int northEastY) {
-    this.southWest = new Node(x: southWestX, y: southWestY)
-    this.northEast = new Node(x: northEastX, y: northEastY)
-  }
 
   static BarrenArea buildBarrenArea(String input, int w, int h) throws InvalidInputStringException {
     List<String> tokens = input.tokenize()
